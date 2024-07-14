@@ -7,7 +7,7 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
-// import Home from "./Home";
+
 
 
 
@@ -15,12 +15,12 @@ function Bar() {
   
       
         return (
-            <div   > 
+            <div className="Box"  > 
                
              
-            <Box display="flex" justifyContent="space-between" p={3}>
+            <Box display="flex" justifyContent="space-between" p={1}>
               {/* SEARCH BAR */}
-              <Box
+              <Box 
                 display="flex"
              left="150Px"
                 borderRadius="3px"

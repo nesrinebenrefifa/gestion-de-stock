@@ -1,25 +1,18 @@
 // import React from 'react';
 import { Link } from "react-router-dom";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
-import ventes from "../images/ventes.png"
+// import ventes from "../images/ventes.png"
+import '../images/app.css';
 
 const Home = () => {
   return (
     <div
     
-      className="d-flex flex-column "
-    >
+      className="d-flex flex-column " >
       <Sidebar>
         <Menu>
-          <MenuItem  >
-          <a>
-          <img src={ventes} className="logo" alt="logo" />
-        </a>
-          </MenuItem>
-        </Menu>
-        <Menu>
           <MenuItem
-            component={<Link to="/home"  />}>
+            component={<Link to="/Dashboard"  />}>
          
             Dashboard
           </MenuItem>
@@ -39,7 +32,7 @@ const Home = () => {
         </Menu>
 
         <Menu>
-          <MenuItem component={<Link to="/Rapports" />}>Rapports</MenuItem>
+          <MenuItem component={<Link to="/ReportGenerator" />}>Rapports</MenuItem>
         </Menu>
         <Menu>
           <MenuItem component={<Link to="/login" />}>Logout</MenuItem>

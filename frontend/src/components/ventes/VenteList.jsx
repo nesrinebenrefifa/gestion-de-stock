@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+
 const VenteList = () => {
     const [ventes, setVentes] = useState([]);
 
@@ -20,7 +21,7 @@ const VenteList = () => {
                     <li key={vente.id}>
                         <p>Nom du produit: {vente.productName}</p>
                         <p>Quantité: {vente.quantity}</p>
-                        <p>Prix: {vente.price.toFixed(2)} €</p>
+                        <p>Prix: {vente.price.toFixed(2)} Dt</p>
                         <p>Date: {new Date(vente.id).toLocaleDateString()}</p>
                     </li>
                 ))}

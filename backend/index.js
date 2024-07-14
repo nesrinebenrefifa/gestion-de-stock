@@ -5,6 +5,7 @@ const FormDataModel = require ('./models/FormData');
 
 const Product = require('./models/product');
 const dotenv = require("dotenv").config();
+const Vente = require('./models/Vente');
 
 
 
@@ -14,7 +15,6 @@ app.use(cors());
 
 //Connexion to database "mongodb"
 app.use(express.urlencoded({ extended: true }));
-
 mongoose.Promise = global.Promise;
 const URI = process.env.URI;
 mongoose
@@ -131,8 +131,19 @@ app.get('/', async (req, res) => {
 //**************************************************suivi de ventes  */
 let ventes = [];
 
-app.post('/ventes', (req, res) => {
-    const newVente = { ...req.body, id: Date.now() };
+
+    // app.post('/ventes', async (req, res) => {
+    //     const { productName, quantity, price } = req.body;
+    //     try {
+    //         const newVente = new Vente({ productName, quantity, price });
+    //         await newVente.save();
+    //         res.status(201).json(newVente);
+    //     } catch (err) {
+    //         res.status(400).json({ message: err.message });
+    //     }
+    // });
+app.post('/vente', (req, res) => {
+        const newVente = { ...req.body, id: Date.now() };
     ventes.push(newVente);
     res.status(201).json(newVente);
 });
@@ -152,6 +163,7 @@ app.post('/factures', (req, res) => {
 app.get('/factures', (req, res) => {
     res.json(factures);
 });
+//****************************listde vente */
 
 module.exports = app;
 
