@@ -1,14 +1,24 @@
-import  { useState } from 'react';
-
+import { useState } from 'react';
 
 const FactureForm = ({ onAddFacture }) => {
-    const [customerName, setCustomerName] = useState('');
+    const [clientName, setClientName] = useState('');
+    const [clientEmail, setClientEmail] = useState('');
     const [date, setDate] = useState('');
-    const [totalAmount, setTotalAmount] = useState('');
+    const [items, setItems] = useState([{ productName: '', quantity: 0, unitPrice: 0 }]);
+
+    const handleItemChange = (index, event) => {
+        const { name, value } = event.target;
+        const newItems = [...items];
+        newItems[index][name] = value;
+        setItems(newItems);
+    };
+
+   
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const newFacture = { customerName, date, totalAmount: parseFloat(totalAmount) };
+        const totalAmount = items.reduce((total, item) => total + (item.quantity * item.unitPrice), 0);
+        const newFacture = { clientName, clientEmail, date, items, totalAmount };
         try {
             const response = await fetch('http://localhost:5000/factures', {
                 method: 'POST',
@@ -20,9 +30,10 @@ const FactureForm = ({ onAddFacture }) => {
             }
             const data = await response.json();
             onAddFacture(data);
-            setCustomerName('');
+            setClientName('');
+            setClientEmail('');
             setDate('');
-            setTotalAmount('');
+            setItems([{ productName: '', quantity: 0, unitPrice: 0 }]);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -34,8 +45,17 @@ const FactureForm = ({ onAddFacture }) => {
                 <label>Nom du client</label>
                 <input 
                     type="text" 
-                    value={customerName}
-                    onChange={(e) => setCustomerName(e.target.value)}
+                    value={clientName}
+                    onChange={(e) => setClientName(e.target.value)}
+                    required
+                />
+            </div>
+            <div>
+                <label>Email du client</label>
+                <input 
+                    type="email" 
+                    value={clientEmail}
+                    onChange={(e) => setClientEmail(e.target.value)}
                     required
                 />
             </div>
@@ -48,16 +68,36 @@ const FactureForm = ({ onAddFacture }) => {
                     required
                 />
             </div>
-            <div>
-                <label>Montant total</label>
-                <input 
-                    type="number" 
-                    step="0.01"
-                    value={totalAmount}
-                    onChange={(e) => setTotalAmount(e.target.value)}
-                    required
-                />
-            </div>
+            {items.map((item, index) => (
+                <div key={index}>
+                    <label>Produit</label>
+                    <input 
+                        type="text" 
+                        name="productName" 
+                        value={item.productName}
+                        onChange={(e) => handleItemChange(index, e)}
+                        required
+                    />
+                    <label>Quantité</label>
+                    <input 
+                        type="number" 
+                        name="quantity" 
+                        value={item.quantity}
+                        onChange={(e) => handleItemChange(index, e)}
+                        required
+                    />
+                    <label>Prix Unitaire</label>
+                    <input 
+                        type="number" 
+                        name="unitPrice" 
+                        value={item.unitPrice}
+                        onChange={(e) => handleItemChange(index, e)}
+                        required
+                    />
+                 
+                </div>
+            ))}
+           
             <button type="submit">Générer Facture</button>
         </form>
     );

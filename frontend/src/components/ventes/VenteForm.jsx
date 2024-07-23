@@ -4,10 +4,17 @@ const VenteForm = ({ onAddVente }) => {
     const [productName, setProductName] = useState('');
     const [quantity, setQuantity] = useState('');
     const [price, setPrice] = useState('');
+    const [date, setDate] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const newVente = { productName, quantity: parseInt(quantity), price: parseFloat(price) };
+        const newVente = {
+            id: Date.now(), // Générer un ID unique basé sur le timestamp actuel
+            productName,
+            quantity: parseInt(quantity),
+            price: parseFloat(price),
+            date
+        };
         const response = await fetch('http://localhost:5000/ventes', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -18,6 +25,7 @@ const VenteForm = ({ onAddVente }) => {
         setProductName('');
         setQuantity('');
         setPrice('');
+        setDate('');
     };
 
     return (
@@ -47,6 +55,15 @@ const VenteForm = ({ onAddVente }) => {
                     step="0.01"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
+                    required
+                />
+            </div>
+            <div>
+                <label>Date</label>
+                <input 
+                    type="date" 
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
                     required
                 />
             </div>

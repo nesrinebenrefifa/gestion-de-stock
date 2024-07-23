@@ -53,28 +53,30 @@ const ProductManagement = () => {
   };
 
   return (
-    <div>
-      <h2>Product Management</h2>
+    
       <div>
-        <input type="text" name="name" value={form.name} onChange={handleChange} placeholder="Name" />
-        <input type="text" name="description" value={form.description} onChange={handleChange} placeholder="Description" />
-        <input type="number" name="quantity" value={form.quantity} onChange={handleChange} placeholder="Quantity" />
-        <input type="number" name="purchasePrice" value={form.purchasePrice} onChange={handleChange} placeholder="Purchase Price" />
-        <input type="number" name="salePrice" value={form.salePrice} onChange={handleChange} placeholder="Sale Price" />
-        <input type="text" name="supplier" value={form.supplier} onChange={handleChange} placeholder="Supplier" />
-        <button onClick={handleAddProduct}>Add Product</button>
+        <h2>Gestion des Produits</h2>
+        <div>
+          <input type="text" name="name" value={form.name} onChange={handleChange} placeholder="Nom" />
+          <input type="text" name="description" value={form.description} onChange={handleChange} placeholder="Description" />
+          <input type="number" name="quantity" value={form.quantity} onChange={handleChange} placeholder="Quantité" />
+          <input type="number" name="purchasePrice" value={form.purchasePrice} onChange={handleChange} placeholder="Prix d'Achat" />
+          <input type="number" name="salePrice" value={form.salePrice} onChange={handleChange} placeholder="Prix de Vente" />
+          <input type="text" name="supplier" value={form.supplier} onChange={handleChange} placeholder="Fournisseur" />
+          <button onClick={handleAddProduct}>Ajouter Produit</button>
+        </div>
+        <ul>
+          {products.map(product => (
+            <li key={product._id}>
+              {product.name} - {product.description} - {product.quantity} - {product.purchasePrice} - {product.salePrice} - {product.supplier}
+              <button onClick={() => handleEditProduct(product._id)}>Modifier</button>
+              <button onClick={() => handleDeleteProduct(product._id)}>Supprimer</button>
+            </li>
+          ))}
+        </ul>
       </div>
-      <ul>
-        {products.map(product => (
-          <li key={product._id}>
-            {product.name} - {product.description} - {product.quantity} - {product.purchasePrice} - {product.salePrice} - {product.supplier}
-            <button onClick={() => handleEditProduct(product._id)}>Edit</button>
-            <button onClick={() => handleDeleteProduct(product._id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
+    );
+  };
+  
 
 export default ProductManagement;

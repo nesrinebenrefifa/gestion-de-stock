@@ -2,30 +2,40 @@
 import { jsPDF } from 'jspdf';
 import ChartComponent from './ChartComponent';
 
-const ReportGenerator = ({ ventes }) => {
+const ReportGenerator = () => {
     const generatePDF = () => {
         const doc = new jsPDF();
-        doc.text('Rapport des ventes', 10, 10);
-        ventes.forEach((vente, index) => {
-            doc.text(`Vente ${index + 1}:`, 10, 20 + index * 10);
-            doc.text(`Nom du produit: ${vente.productName}`, 20, 30 + index * 10);
-            doc.text(`Quantité: ${vente.quantity}`, 20, 40 + index * 10);
-            doc.text(`Prix: ${vente.price.toFixed(2)} €`, 20, 50 + index * 10);
-            doc.text(`Date: ${new Date(vente.id).toLocaleDateString()}`, 20, 60 + index * 10);
-        });
-        doc.save('rapport.pdf');
-    };
 
-    const data = {
-        labels: ventes.map((vente) => new Date(vente.id).toLocaleDateString()),
-        sales: ventes.map((vente) => vente.quantity * vente.price),
-    };
+  doc.setFontSize(16);
+  doc.text('Rapport sur l\'état des stocks', 105, 20, null, null, 'center');
+
+  // Add a table of stock data
+  doc.autoTable({
+    startY: 30,
+    head: [['Produit', 'Quantité', 'Statut']],
+    body: stockData.map(item => [
+      item.productName, 
+      item.quantity, 
+      item.quantity < item.lowStockThreshold ? 'Stock bas' : 'En stock'
+    ]),
+  });
+
+  doc.save('rapport_etat_stocks.pdf');
+};
+
+// Exemple de données de stock
+const stockData = [
+  { productName: 'Produit 1', quantity: 20, lowStockThreshold: 5 },
+  { productName: 'Produit 2', quantity: 3, lowStockThreshold: 5 },
+  // Ajoutez d'autres produits ici
+];
+
 
     return (
         <div>
             <h2>Génération de Rapports</h2>
             <button onClick={generatePDF}>Exporter en PDF</button>
-            <ChartComponent data={data} />
+            <ChartComponent data={stockData} />
         </div>
     );
 };

@@ -2,16 +2,17 @@ const cors = require('cors');
 const express = require('express');
 const mongoose = require('mongoose');
 const FormDataModel = require ('./models/FormData');
-
 const Product = require('./models/product');
 const dotenv = require("dotenv").config();
 const Vente = require('./models/Vente');
+const Facture = require('./models/Factures');
 
 
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+ 
 
 //Connexion to database "mongodb"
 app.use(express.urlencoded({ extended: true }));
@@ -20,6 +21,7 @@ const URI = process.env.URI;
 mongoose
   .connect(process.env.URI)
   .then(() => {
+
     console.log("Connected to database!");
   })
   .catch(() => {
@@ -106,18 +108,19 @@ app.put('/edit/:id',async (req, res) => {
     }
 })
 //delet product
-app.delete('/delete/:id',async (req, res) => {
+app.delete('/delete/:id', async (req, res) => {
     try {
-        const product = await Product.findById(req.params.id);
-        if (!product) {
-            return res.status(404).json("Product not found");
-        }
-        await product.remove();
-        res.status(200).json({ msg: "Product deleted" });
+      const product = await Product.findById(req.params.id);
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+      await Product.findByIdAndDelete(req.params.id);
+      res.status(200).json({ message: "Product deleted" });
     } catch (err) {
-        res.status(500).json(err);
+      res.status(500).json({ error: err.message });
     }
-})
+  });
+  
 //get product
 app.get('/', async (req, res) => {
     try {
@@ -129,41 +132,61 @@ app.get('/', async (req, res) => {
     }
 });
 //**************************************************suivi de ventes  */
-let ventes = [];
 
 
-    // app.post('/ventes', async (req, res) => {
-    //     const { productName, quantity, price } = req.body;
-    //     try {
-    //         const newVente = new Vente({ productName, quantity, price });
-    //         await newVente.save();
-    //         res.status(201).json(newVente);
-    //     } catch (err) {
-    //         res.status(400).json({ message: err.message });
-    //     }
-    // });
-app.post('/vente', (req, res) => {
-        const newVente = { ...req.body, id: Date.now() };
-    ventes.push(newVente);
-    res.status(201).json(newVente);
-});
-
-app.get('/ventes', (req, res) => {
-    res.json(ventes);
-});
-//*******************************Factures */
-let factures=[];
-// Routes pour les factures
-app.post('/factures', (req, res) => {
-    const newFacture = { ...req.body, id: Date.now() };
-    factures.push(newFacture);
+app.post('/ventes', async (req, res) => {
+    const { productName, quantity, price } = req.body;
+         try {
+        const newVente = new Vente({ productName, quantity, price });
+         await newVente.save();
+      res.status(201).json(newVente);
+    } catch (error) {
+      res.status(500).json({ message: 'Failed to create sale', error });
+    }
+  });
+  
+  app.get('/ventes', async (req, res) => {
+    try {
+      const ventes = await Vente.find();
+      res.json(ventes);
+    } catch (error) {
+      res.status(500).json({ message: 'Failed to fetch sales', error });
+    }
+  });
+  
+//*******************************Factures***************** */
+app.post('/factures', async (req, res) => {
+  const { clientName, clientEmail, date, items, totalAmount } = req.body;
+       try {
+      const newFacture = new Facture({ clientName, clientEmail, date, items, totalAmount});
+       await newFacture.save();
     res.status(201).json(newFacture);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to create sale', error });
+  }
 });
 
-app.get('/factures', (req, res) => {
-    res.json(factures);
+app.get('/factures', async (req, res) => {
+  try {
+    const Factures = await Facture.find();
+    res.json(Factures);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch sales', error });
+  }
 });
-//****************************listde vente */
+//****************************** */
+// let factures=[];
+// // Routes pour les factures
+// app.post('/factures', (req, res) => {
+//     const newFacture = { ...req.body, id: Date.now() };
+//     factures.push(newFacture);
+//     res.status(201).json(newFacture);
+// });
+
+// app.get('/factures', (req, res) => {
+//     res.json(factures);
+// });
+//****************************list de vente *********************/
 
 module.exports = app;
 

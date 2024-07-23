@@ -56,7 +56,7 @@ button {
         margin: 4px 2px;
         cursor: pointer;
         transition-duration: 0.4s;
-        border-radius: 50%;
+        border-radius: 10px;
     }
     
     button:hover {
