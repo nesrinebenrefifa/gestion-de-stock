@@ -1,6 +1,7 @@
 *{
-   
-        background-image:  "linear-gradient(#00d5ff,#0095ff,rgba(93,0,255,.555))";
+  font-size: small;
+ 
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 .logo {
         height: 50px;
@@ -19,14 +20,10 @@
       input {
         margin: 5px;
         padding: 8px;
-        width: 200px;
+        width: 500px;
+       
       }
-      
-      button {
-        margin: 5px;
-        padding: 8px 16px;
-        cursor: pointer;
-      }
+     
       
       ul {
         list-style-type: none;
@@ -45,10 +42,10 @@
      /* styles.css */
 
 button {
-        background-color: #322649; /* Vert */
+        background-color: #1c2e4c; /* Vert */
         border: none;
         color: white;
-        padding: 15px 32px;
+        padding: 10px 15px;
         text-align: center;
         text-decoration: none;
         display: inline-block;
@@ -88,3 +85,87 @@ button {
     .Box{
       margin-left: 50px;
     }
+
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  border: 1px solid #ffffff;
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  background-color: #0f2a50;
+  color: rgb(255, 255, 255);
+}
+
+/* tbody tr:nth-child(even) {
+  background-color: #948787;
+}
+
+tbody tr:hover {
+  background-color: #c9a1a1;
+} */
+
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.actions i {
+  margin: 0 5px;
+  cursor: pointer;
+  color: #007bff;
+}
+
+.actions i:hover {
+  color: #0056b3;
+}
+/* General styles for form elements */
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+}
+
+/* Styling the select element */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='38' viewBox='0 0 24 24' width='38' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position-x: 97%;
+  background-position-y: 50%;
+  cursor: pointer;
+}
+
+/* Add hover effect */
+select:hover {
+  border-color: #888;
+}
+
+/* Add focus effect */
+select:focus {
+  border-color: #555;
+  outline: none;
+}
+
+/* Styling the option elements */
+select option {
+  padding: 10px;
+}

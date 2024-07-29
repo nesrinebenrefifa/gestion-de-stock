@@ -6,9 +6,9 @@ export default function Footer() {
             
             <div className="text-center">
                     <h5>
-                        Made with ❤️ by <a href="www.linkedin.com/in/nesrine-ben-refifa-26aa511b3/" style={{textDecoration : "none", color: "red"}}>NESRINE BEN REFIFA </a>
+                         <a href="www.linkedin.com/in/nesrine-ben-refifa-26aa511b3/" style={{textDecoration : "none", color: "red"}}>LAB-IT Sousse</a>
                     </h5>
-            </div> 
+            </div>  
 
             <div className="text-center pt-1">
                 <a href="https://www.linkedin.com/in/nesrine-ben-refifa-26aa511b3/" target="_blank" rel="noreferrer">

@@ -1,6 +1,7 @@
 // import React from 'react';
 import { jsPDF } from 'jspdf';
 import ChartComponent from './ChartComponent';
+import Home from '../Tableau-de-bord/Home';
 
 const ReportGenerator = () => {
     const generatePDF = () => {
@@ -25,18 +26,20 @@ const ReportGenerator = () => {
 
 // Exemple de données de stock
 const stockData = [
-  { productName: 'Produit 1', quantity: 20, lowStockThreshold: 5 },
-  { productName: 'Produit 2', quantity: 3, lowStockThreshold: 5 },
+ 
   // Ajoutez d'autres produits ici
 ];
 
 
     return (
+      <div 
+      >
+        <Home/>
         <div>
-            <h2>Génération de Rapports</h2>
-            <button onClick={generatePDF}>Exporter en PDF</button>
+        
             <ChartComponent data={stockData} />
-        </div>
+            <button onClick={generatePDF}>Exporter en PDF</button>
+        </div></div>
     );
 };
 

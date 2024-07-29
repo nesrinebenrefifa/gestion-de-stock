@@ -6,6 +6,7 @@ const Product = require('./models/product');
 const dotenv = require("dotenv").config();
 const Vente = require('./models/Vente');
 const Facture = require('./models/Factures');
+const Supplier = require('./models/supplier')
 
 
 
@@ -19,10 +20,10 @@ app.use(express.urlencoded({ extended: true }));
 mongoose.Promise = global.Promise;
 const URI = process.env.URI;
 mongoose
-  .connect(process.env.URI)
+  .connect(URI)
   .then(() => {
 
-    console.log("Connected to database!");
+    console.log("Connected to database FAI!");
   })
   .catch(() => {
     console.log("Connection to database failed!");
@@ -67,23 +68,82 @@ app.post('/login', (req, res)=>{
         }
     })
 })
+
+// Add a new supplier
+app.post('/suppliers/add', async (req, res) => {
+  const { firstName, lastName, email, phone } = req.body;
+
+  try {
+      const newSupplier = new Supplier({ firstName, lastName, email, phone });
+      await newSupplier.save();
+      res.status(201).json(newSupplier);
+  } catch (err) {
+      res.status(500).json(err);
+  }
+});
+
+// Edit supplier
+app.put('/suppliers/edit/:id', async (req, res) => {
+  const { firstName, lastName, email, phone } = req.body;
+
+  try {
+      const supplier = await Supplier.findById(req.params.id);
+      if (!supplier) {
+          return res.status(404).json("Supplier not found");
+      }
+
+      supplier.firstName = firstName || supplier.firstName;
+      supplier.lastName = lastName || supplier.lastName;
+      supplier.email = email || supplier.email;
+      supplier.phone = phone || supplier.phone;
+
+      await supplier.save();
+      res.status(200).json(supplier);
+  } catch (err) {
+      res.status(500).json(err);
+  }
+});
+
+// Delete supplier
+app.delete('/suppliers/delete/:id', async (req, res) => {
+  try {
+      const supplier = await Supplier.findById(req.params.id);
+      if (!supplier) {
+          return res.status(404).json({ message: "Supplier not found" });
+      }
+      await Supplier.findByIdAndDelete(req.params.id);
+      res.status(200).json({ message: "Supplier deleted" });
+  } catch (err) {
+      res.status(500).json({ error: err.message });
+  }
+});
+// Get all suppliers
+app.get('/suppliers', async (req, res) => {
+  try {
+    const suppliers = await Supplier.find();
+    res.json(suppliers);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
 //************************************** */
 
 
 //API
 //add product
+app.post('/add', async (req, res) => {
+  const { name, description, quantity, purchasePrice, salePrice, supplier } = req.body;
 
-app.post('/add',async (req, res) => {
-    const { name, description, quantity, purchasePrice, salePrice, supplier } = req.body;
-
-    try {
-        const newProduct = new Product({ name, description, quantity, purchasePrice, salePrice, supplier });
-        await newProduct.save();
-        res.status(201).json(newProduct);
-    } catch (err) {
-        res.status(500).json(err);
-    }
-})
+  try {
+    const newProduct = new Product({ name, description, quantity, purchasePrice, salePrice, supplier });
+    await newProduct.save();
+    res.status(201).json(newProduct);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 //edit product
 app.put('/edit/:id',async (req, res) => {
     const { name, description, quantity, purchasePrice, salePrice, supplier } = req.body;
@@ -122,7 +182,7 @@ app.delete('/delete/:id', async (req, res) => {
   });
   
 //get product
-app.get('/', async (req, res) => {
+app.get('/products', async (req, res) => {
     try {
         const products = await Product.find();
         res.status(200).json(products);
@@ -130,42 +190,66 @@ app.get('/', async (req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
+
 });
 //**************************************************suivi de ventes  */
 
 
 app.post('/ventes', async (req, res) => {
-    const { productName, quantity, price } = req.body;
-         try {
-        const newVente = new Vente({ productName, quantity, price });
-         await newVente.save();
-      res.status(201).json(newVente);
-    } catch (error) {
-      res.status(500).json({ message: 'Failed to create sale', error });
+  const { productName, quantity, price } = req.body;
+
+  try {
+    // Vérifiez que le produit existe et a une quantité suffisante
+    const product = await Product.findOne({ name: productName });
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
     }
-  });
-  
-  app.get('/ventes', async (req, res) => {
-    try {
-      const ventes = await Vente.find();
-      res.json(ventes);
-    } catch (error) {
-      res.status(500).json({ message: 'Failed to fetch sales', error });
+
+    if (product.quantity < quantity) {
+      return res.status(400).json({ message: 'Not enough quantity in stock' });
     }
-  });
+
+    // Créez une nouvelle vente
+    const newVente = new Vente({ productName,quantity, price, date: new Date() // Vous pouvez ajouter la date de la vente si nécessaire
+ });
+
+    // Enregistrez la vente dans la base de données
+    await newVente.save();
+
+    // Mettez à jour la quantité du produit en stock
+    product.quantity -= quantity;
+    await product.save();
+
+    res.status(201).json(newVente);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to create sale', error });
+  }
+});
+
+
+
   
+app.get('/ventes', async (req, res) => {
+  try {
+    const ventes = await Vente.find();
+    res.json(ventes);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch sales', error });
+  }
+});
+
+
 //*******************************Factures***************** */
 app.post('/factures', async (req, res) => {
-  const { clientName, clientEmail, date, items, totalAmount } = req.body;
+  const { clientName, clientEmail,Number,date, items, totalAmount } = req.body;
        try {
-      const newFacture = new Facture({ clientName, clientEmail, date, items, totalAmount});
+      const newFacture = new Facture({ clientName, clientEmail, Number,date, items, totalAmount});
        await newFacture.save();
     res.status(201).json(newFacture);
   } catch (error) {
     res.status(500).json({ message: 'Failed to create sale', error });
   }
 });
-
 app.get('/factures', async (req, res) => {
   try {
     const Factures = await Facture.find();
@@ -175,18 +259,49 @@ app.get('/factures', async (req, res) => {
   }
 });
 //****************************** */
-// let factures=[];
-// // Routes pour les factures
-// app.post('/factures', (req, res) => {
-//     const newFacture = { ...req.body, id: Date.now() };
-//     factures.push(newFacture);
-//     res.status(201).json(newFacture);
-// });
+// Route pour récupérer tous les produits
+app.get('/stock-overview', async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.status(200).json(products);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch stock overview', error: err });
+  }
+});
+// Route pour récupérer les ventes du jour
+app.get('/daily-sales-summary', async (req, res) => {
+  try {
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
 
-// app.get('/factures', (req, res) => {
-//     res.json(factures);
-// });
-//****************************list de vente *********************/
+    const endOfDay = new Date();
+    endOfDay.setHours(23, 59, 59, 999);
+
+    const dailySales = await Vente.find({
+      date: {
+        $gte: startOfDay,
+        $lte: endOfDay
+      }
+    });
+
+    res.status(200).json(dailySales);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch daily sales summary', error: err });
+  }
+});
+// Route pour récupérer les produits avec un stock bas
+app.get('/low-stock-alerts', async (req, res) => {
+  const lowStockThreshold = 10; // Vous pouvez ajuster ce seuil selon vos besoins
+
+  try {
+    const lowStockProducts = await Product.find({ quantity: { $lt: lowStockThreshold } });
+    res.status(200).json(lowStockProducts);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch low stock alerts', error: err });
+  }
+});
+
+
 
 module.exports = app;
 

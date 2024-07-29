@@ -1,10 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const FactureForm = ({ onAddFacture }) => {
     const [clientName, setClientName] = useState('');
     const [clientEmail, setClientEmail] = useState('');
+    const [MatriculeFiscale, setMatriculeFiscale] = useState('');
     const [date, setDate] = useState('');
-    const [items, setItems] = useState([{ productName: '', quantity: 0, unitPrice: 0 }]);
+    const [items, setItems] = useState([{ id: Date.now(), productId: '', quantity: '', unitPrice: '' }]);
+    const [products, setProducts] = useState([]);
+
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/ventes');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setProducts(data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+        fetchProducts();
+    }, []);
 
     const handleItemChange = (index, event) => {
         const { name, value } = event.target;
@@ -13,12 +32,29 @@ const FactureForm = ({ onAddFacture }) => {
         setItems(newItems);
     };
 
-   
+    const handleAddItem = () => {
+        setItems([...items, { id: Date.now(), productId: '', quantity: 1, unitPrice: 0 ,Number:''}]);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const totalAmount = items.reduce((total, item) => total + (item.quantity * item.unitPrice), 0);
-        const newFacture = { clientName, clientEmail, date, items, totalAmount };
+        const newFacture = {
+            clientName,
+            clientEmail,
+            date,
+            items: items.map(item => {
+                const product = products.find(p => p._id === item.productId);
+                return {
+                    productName: product ? product.productName : '',
+                    quantity: item.quantity,
+                    unitPrice: item.unitPrice,
+                    Number:item.Number
+                };
+            }),
+            totalAmount
+        };
+
         try {
             const response = await fetch('http://localhost:5000/factures', {
                 method: 'POST',
@@ -32,8 +68,9 @@ const FactureForm = ({ onAddFacture }) => {
             onAddFacture(data);
             setClientName('');
             setClientEmail('');
+            setMatriculeFiscale('');
             setDate('');
-            setItems([{ productName: '', quantity: 0, unitPrice: 0 }]);
+            setItems([{ id: Date.now(), productId: '', quantity: 1, unitPrice: 0,Number:'' }]);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -60,6 +97,17 @@ const FactureForm = ({ onAddFacture }) => {
                 />
             </div>
             <div>
+                <label>Matricule Fiscale</label>
+                <input 
+                    
+                    value={MatriculeFiscale}
+                    onChange={(e) =>  setMatriculeFiscale(e.target.value)}
+                    required
+                    min="1" 
+                />
+            </div>
+            
+            <div>
                 <label>Date</label>
                 <input 
                     type="date" 
@@ -69,22 +117,28 @@ const FactureForm = ({ onAddFacture }) => {
                 />
             </div>
             {items.map((item, index) => (
-                <div key={index}>
+                <div key={item.id}>
                     <label>Produit</label>
-                    <input 
-                        type="text" 
-                        name="productName" 
-                        value={item.productName}
+                    <select 
+                        name="productId" 
+                        value={item.productId}
                         onChange={(e) => handleItemChange(index, e)}
                         required
-                    />
+                    >
+                        <option value="">Sélectionnez un produit</option>
+                        {products.map(product => (
+                            <option key={product._id} value={product._id}>
+                                {product.productName}
+                            </option>
+                        ))}
+                    </select>
                     <label>Quantité</label>
                     <input 
                         type="number" 
                         name="quantity" 
                         value={item.quantity}
                         onChange={(e) => handleItemChange(index, e)}
-                        required
+                        min="1" 
                     />
                     <label>Prix Unitaire</label>
                     <input 
@@ -92,12 +146,22 @@ const FactureForm = ({ onAddFacture }) => {
                         name="unitPrice" 
                         value={item.unitPrice}
                         onChange={(e) => handleItemChange(index, e)}
-                        required
+                        required  
+                        min="0.01" 
+                        step="0.01"
                     />
-                 
+                     <label>Numero de facture</label>
+                    <input 
+                        type="number" 
+                        name="Number" 
+                        value={item.Number}
+                        onChange={(e) => handleItemChange(index, e)}
+                        required  
+                     
+                    />
                 </div>
             ))}
-           
+            <button type="button" onClick={handleAddItem}>Ajouter un produit</button>
             <button type="submit">Générer Facture</button>
         </form>
     );

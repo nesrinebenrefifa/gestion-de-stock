@@ -6,8 +6,10 @@ const FacturesSchema = new mongoose.Schema({
   date: { type: Date, default: Date.now },
   items: [
     {
+      Number: { type: String, required: true, unique: true }, // Numéro de facture Number: { type: String, required: true, unique: true }, // Numéro de facture
       productName: { type: String, required: true },
       quantity: { type: Number, required: true },
+
       unitPrice: { type: Number, required: true },
     },
   ],
