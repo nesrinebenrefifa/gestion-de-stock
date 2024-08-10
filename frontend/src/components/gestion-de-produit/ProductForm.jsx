@@ -110,6 +110,7 @@ const ProductManagement = () => {
       <div style={{ marginLeft: '287px', padding: '20px', flex: 1 }}>
         <h2>Gestion des Produits</h2>
         <div>
+        <div className="form-group">
           <input type="text" name="name" value={form.name} onChange={handleChange} placeholder="Nom" />
           <input type="text" name="description" value={form.description} onChange={handleChange} placeholder="Description" />
           <input type="number" name="quantity" value={form.quantity} onChange={handleChange} placeholder="Quantité" min="1" />
@@ -120,7 +121,7 @@ const ProductManagement = () => {
             {suppliers.map(supplier => (
               <option key={supplier._id} value={supplier.firstName}>{supplier.firstName}</option>
             ))}
-          </select>
+          </select></div>
           {editMode ? (
             <button onClick={handleUpdateProduct} disabled={!validateForm()}>Mettre à jour le produit</button>
           ) : (

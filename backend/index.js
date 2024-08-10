@@ -23,7 +23,7 @@ mongoose
   .connect(URI)
   .then(() => {
 
-    console.log("Connected to database FAI!");
+    console.log("Connected to database !");
   })
   .catch(() => {
     console.log("Connection to database failed!");
@@ -241,21 +241,35 @@ app.get('/ventes', async (req, res) => {
 
 //*******************************Factures***************** */
 app.post('/factures', async (req, res) => {
-  const { clientName, clientEmail,Number,date, items, totalAmount } = req.body;
-       try {
-      const newFacture = new Facture({ clientName, clientEmail, Number,date, items, totalAmount});
-       await newFacture.save();
+  const { clientName, clientEmail, date, MatriculeFiscale, paymentMethod, period, intervenant, items, totalAmount } = req.body;
+
+  try {
+    const newFacture = new Facture({
+      clientName,
+      clientEmail,
+      date,
+      MatriculeFiscale,
+      paymentMethod,
+      period,
+      intervenant,
+      items,
+      totalAmount
+    });
+    await newFacture.save();
     res.status(201).json(newFacture);
   } catch (error) {
-    res.status(500).json({ message: 'Failed to create sale', error });
+    res.status(500).json({ message: 'Failed to create facture', error });
   }
 });
+
+
+// Route GET pour récupérer toutes les factures
 app.get('/factures', async (req, res) => {
   try {
-    const Factures = await Facture.find();
-    res.json(Factures);
+    const factures = await Facture.find();
+    res.json(factures);
   } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch sales', error });
+    res.status(500).json({ message: 'Failed to fetch factures', error });
   }
 });
 //****************************** */
@@ -298,6 +312,57 @@ app.get('/low-stock-alerts', async (req, res) => {
     res.status(200).json(lowStockProducts);
   } catch (err) {
     res.status(500).json({ message: 'Failed to fetch low stock alerts', error: err });
+  }
+
+});
+app.get('/statistics', async (req, res) => {
+  try {
+    // Agrégation pour les produits les plus vendus
+    const topSelling = await Vente.aggregate([
+      {
+        $group: {
+          _id: '$productName',
+          totalSales: { $sum: { $multiply: ['$quantity', '$price'] } },
+        },
+      },
+      { $sort: { totalSales: -1 } },
+      { $limit: 10 },
+    ]).exec();
+
+    // Agrégation pour les produits les moins vendus
+    const leastSelling = await Vente.aggregate([
+      {
+        $group: {
+          _id: '$productName',
+          totalSales: { $sum: { $multiply: ['$quantity', '$price'] } },
+        },
+      },
+      { $sort: { totalSales: 1 } },
+      { $limit: 10 },
+    ]).exec();
+
+    // Récupérer les détails des produits
+    const productNames = [
+      ...new Set([...topSelling.map(item => item._id), ...leastSelling.map(item => item._id)]),
+    ];
+    const products = await Product.find({ name: { $in: productNames } }).exec();
+
+    // Mapper les données des produits
+    const mapProducts = (data) => data.map((item) => {
+      const product = products.find((prod) => prod.name === item._id);
+      return {
+        productName: product ? product.name : 'Unknown',
+        totalSales: item.totalSales,
+      };
+    });
+
+    res.json({
+      topSelling: mapProducts(topSelling),
+      leastSelling: mapProducts(leastSelling),
+    });
+  } catch (error) {
+    console.error('Erreur lors de la récupération des statistiques:', error);
+    res.status(500).send('Erreur lors de la récupération des statistiques');
   }
 });
 

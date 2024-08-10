@@ -1,16 +1,5 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-
-  Typography,
-  Container
-} from '@mui/material';
 
 const StockOverview = () => {
   const [products, setProducts] = useState([]);
@@ -29,31 +18,26 @@ const StockOverview = () => {
   };
 
   return (
-    <Container>
-      <Typography>
-        Vue densemble des stocks actuels
-      </Typography>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Nom du produit</TableCell>
-              <TableCell align="right">Quantité</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {products.map((product) => (
-              <TableRow key={product._id}>
-                <TableCell >
-                  {product.name}
-                </TableCell>
-                <TableCell align="right">{product.quantity}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Container>
+    <div style={{ padding: '20px' }}>
+   
+
+      <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
+        <thead>
+          <tr>
+            <th style={{ borderBottom: '2px solid #ddd', padding: '10px' }}>Nom du produit</th>
+            <th style={{ borderBottom: '2px solid #ddd', padding: '10px', textAlign: 'right' }}>Quantité</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map((product) => (
+            <tr key={product._id}>
+              <td style={{ borderBottom: '1px solid #ddd', padding: '10px' }}>{product.name}</td>
+              <td style={{ borderBottom: '1px solid #ddd', padding: '10px', textAlign: 'right' }}>{product.quantity}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 

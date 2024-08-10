@@ -64,16 +64,18 @@ button {
     
     form div {
         margin-bottom: 5px;
+      
     }
     
     form label {
         display: block;
         margin-bottom: 5px;
+     
     }
     
     form input {
         width: 100%;
-        padding: 8px;
+       
         box-sizing: border-box;
     }
     .AA{
@@ -104,13 +106,7 @@ th {
   color: rgb(255, 255, 255);
 }
 
-/* tbody tr:nth-child(even) {
-  background-color: #948787;
-}
 
-tbody tr:hover {
-  background-color: #c9a1a1;
-} */
 
 .actions {
   display: flex;
@@ -169,3 +165,76 @@ select:focus {
 select option {
   padding: 10px;
 }
+
+.facture-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.form-group {
+  flex: 1 1 200px; /* Adjust the base width as needed */
+  display: flex;
+  flex-direction: column;
+}
+
+.item-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.item-group .form-group {
+  flex: 1 1 200px; /* Adjust the base width as needed */
+}
+
+button {
+  margin-top: 1rem;
+}
+/* styles.css */
+.report-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.dropdown-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.select-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.select-container select {
+  margin: 5px;
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 2200px;
+  margin-top: 20px;
+}
+
+.chart-item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h2, h3, h4 {
+  margin-bottom: 20px;
+}
+
