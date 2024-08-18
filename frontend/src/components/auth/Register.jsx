@@ -42,8 +42,8 @@ const Register = () => {
                 <strong>Name</strong>
               </label>
               <input 
-                type="text"
-                placeholder="Enter Name"
+                
+                placeholder="Entrer votre Nom"
                 className="form-control" 
                 id="exampleInputName" 
                 onChange={(event) => setName(event.target.value)}
@@ -56,7 +56,7 @@ const Register = () => {
               </label>
               <input 
                 type="email" 
-                placeholder="Enter Email"
+                placeholder="Entrer votre Email"
                 className="form-control" 
                 id="exampleInputEmail1" 
                 onChange={(event) => setEmail(event.target.value)}
@@ -69,7 +69,7 @@ const Register = () => {
               </label>
               <input 
                 type="password" 
-                placeholder="Enter Password"
+                placeholder="Entrer votre mot de passe"
                 className="form-control" 
                 id="exampleInputPassword1" 
                 onChange={(event) => setPassword(event.target.value)}

@@ -45,10 +45,10 @@ const DailySalesSummary = () => {
   };
 
   return (
-    <Container>
-      <Typography variant="h5" gutterBottom>
-        Résumé des ventes quotidiennes
-      </Typography>
+    <Container style={{ padding: '20px' }}>
+      <h2>
+        Résumé des ventes quotidiennes</h2>
+     
 
       <Grid container spacing={2} style={{ marginBottom: '20px' }}>
         <Grid item xs={12} sm={6}>

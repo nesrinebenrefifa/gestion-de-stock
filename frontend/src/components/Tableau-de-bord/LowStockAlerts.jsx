@@ -41,7 +41,7 @@ const LowStockAlerts = () => {
 
       <div>
         <p>Produits en stock bas: {lowStockProducts.length}</p>
-        <p>Pourcentage de stock bas: {lowStockPercentage}%</p>
+        <p>Pourcentage de stock bas:<h3>{lowStockPercentage}%</h3> </p>
       </div>
 
       <table

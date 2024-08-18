@@ -48,7 +48,7 @@ const FactureForm = ({ onAddFacture }) => {
         ...newItems[index],
         productId: productId,
         unitPrice: selectedProduct.price,
-        quantity: 1,
+        quantity: selectedProduct.quantity , // Set default quantity here
         Number: selectedProduct.number,
       };
     }
@@ -110,7 +110,7 @@ const FactureForm = ({ onAddFacture }) => {
         {
           id: Date.now(),
           productId: "",
-          quantity: 1,
+          quantity: 0,
           unitPrice: 0,
           Number: "",
         },
@@ -213,7 +213,7 @@ const FactureForm = ({ onAddFacture }) => {
               name="quantity"
               value={item.quantity}
               onChange={(e) => handleItemChange(index, e)}
-              min="1"
+              min="0"
               required
             />
           </div>

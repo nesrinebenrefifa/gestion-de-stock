@@ -1,4 +1,4 @@
-import {  Typography } from '@mui/material';
+
 import StockOverview from './StockOverview';
 import DailySalesSummary from './DailySalesSummary';
 import LowStockAlerts from './LowStockAlerts';
@@ -6,16 +6,13 @@ import Home from './Home';
 
 const Dashboard = () => {
   return (
-    <div>
-      
-        <Home/>
-        <div  style={{ marginLeft:'287px', padding: '20px', flex: 1 }}>
-      <DailySalesSummary />
-      <Typography variant="h4" gutterBottom>
-      Vue d'ensemble des stocks actuels
-      </Typography>
-      <StockOverview />
-      <LowStockAlerts />
+    <div style={{ display: 'flex' }}>
+      <Home/>
+      <div style={{ display: 'flex',  alignItems: 'flex-start', width: '80%', maxWidth: '800px' }}>
+        <DailySalesSummary />
+        
+        <StockOverview />
+        <LowStockAlerts />
       </div>
     </div>
   );

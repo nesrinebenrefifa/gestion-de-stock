@@ -1,0 +1,10 @@
+FROM  node:20.12
+
+COPY package.json /app/
+
+
+WORKDIR /app
+
+RUN npm install
+
+CMD ["dev" ,"app.jsx"]

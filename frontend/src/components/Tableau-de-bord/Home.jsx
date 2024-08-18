@@ -23,12 +23,12 @@ const Home = () => {
           </MenuItem>
         </Menu>
         <Menu>
+          <MenuItem component={<Link to="/suppliers " />}>Fournisseur</MenuItem>
+        </Menu>
+        <Menu>
           <MenuItem component={<Link to="/add" />}>
             Gestion de produit
           </MenuItem>
-        </Menu>
-        <Menu>
-          <MenuItem component={<Link to="/suppliers " />}>Fournisseur</MenuItem>
         </Menu>
         <Menu>
           <MenuItem component={<Link to="/Ventes"/>}>Suivi des Ventes</MenuItem>

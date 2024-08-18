@@ -134,6 +134,7 @@ const SupplierManagement = () => {
             onChange={handleChange}
             placeholder="Numéro de Téléphone"
           />
+              </div>
           {editMode ? (
             <button onClick={handleUpdateSupplier} disabled={!validateForm()}>
               Mettre à jour le fournisseur
@@ -143,7 +144,6 @@ const SupplierManagement = () => {
               Ajouter Fournisseur
             </button>
           )}
-        </div>
         <table>
           <thead>
             <tr>

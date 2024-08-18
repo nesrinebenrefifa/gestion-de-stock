@@ -19,12 +19,15 @@ const StockOverview = () => {
 
   return (
     <div style={{ padding: '20px' }}>
+     <h2>
+          Vue d'ensemble des stocks actuels</h2>
+       
    
 
-      <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
+      <table style={{ width: '80%', borderCollapse: 'collapse', marginTop: '20px' }}>
         <thead>
           <tr>
-            <th style={{ borderBottom: '2px solid #ddd', padding: '10px' }}>Nom du produit</th>
+            <th style={{ borderBottom: '3px solid #ddd', padding: '10px' }}>Nom du produit</th>
             <th style={{ borderBottom: '2px solid #ddd', padding: '10px', textAlign: 'right' }}>Quantité</th>
           </tr>
         </thead>

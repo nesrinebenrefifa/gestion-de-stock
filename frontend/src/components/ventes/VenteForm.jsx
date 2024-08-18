@@ -106,7 +106,7 @@ const VenteForm = ({ onAddVente }) => {
         />
       </div>
       <div>
-        <label>Prix</label>
+        <label>Prix unitaire</label>
         <input
           type="number"
           name="price"

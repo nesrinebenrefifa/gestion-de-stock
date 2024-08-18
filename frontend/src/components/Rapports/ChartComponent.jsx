@@ -13,6 +13,8 @@ import {
   ArcElement,
 } from "chart.js";
 import axios from "axios";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 
 ChartJS.register(
   CategoryScale,
@@ -91,8 +93,57 @@ const ReportGenerationAndStatistics = () => {
     ],
   });
 
+  const generatePDF = async () => {
+    const doc = new jsPDF();
+
+    doc.setFontSize(16);
+    doc.text('Rapport Général', 105, 20, null, null, 'center');
+
+    if (reportType === "stock" && reportData.length > 0) {
+      doc.text('État des Stocks', 20, 40);
+
+      doc.autoTable({
+        startY: 50,
+        head: [['Nom du Produit', 'Description', 'Quantité', 'Prix dAchat', 'Prix de Vente', 'Fournisseur', 'Alertes de Stock']],
+        body: reportData.map(item => [
+          item.name,
+          item.description,
+          item.quantity,
+          item.purchasePrice.toFixed(2),
+          item.salePrice.toFixed(2),
+          item.supplier,
+          calculateLowStock(item.quantity) ? 'Stock Bas' : 'Stock Suffisant'
+        ]),
+      });
+    }
+
+    if (reportType === "sales" && reportData.length > 0) {
+      doc.text('Rapport de Ventes', 20, doc.lastAutoTable ? doc.lastAutoTable.finalY + 20 : 50);
+
+      const chartElement = document.getElementById('sales-chart');
+      if (chartElement) {
+        const canvas = await html2canvas(chartElement);
+        const imgData = canvas.toDataURL('image/png');
+        doc.addImage(imgData, 'PNG', 10, doc.lastAutoTable ? doc.lastAutoTable.finalY + 30 : 70, 180, 100);
+      }
+    }
+
+    if (reportType === "statistics" && statisticsData.topSelling.length > 0) {
+      doc.text('Statistiques des Produits', 20, doc.lastAutoTable ? doc.lastAutoTable.finalY + 20 : 50);
+
+      const chartElement = document.getElementById('statistics-chart');
+      if (chartElement) {
+        const canvas = await html2canvas(chartElement);
+        const imgData = canvas.toDataURL('image/png');
+        doc.addImage(imgData, 'PNG', 10, doc.lastAutoTable ? doc.lastAutoTable.finalY + 30 : 70, 180, 100);
+      }
+    }
+
+    doc.save('rapport_general.pdf');
+  };
+
   return (
-    <div className="d-flex  align-items-center vh-100">
+    <div className="d-flex align-items-center vh-100">
       <div className="report-container">
         <h2>Générer des Rapports</h2>
         <div className="dropdown-container">
@@ -152,7 +203,7 @@ const ReportGenerationAndStatistics = () => {
                       {calculateLowStock(item.quantity) ? (
                         <span style={{ color: "red" }}>Stock Bas</span>
                       ) : (
-                        <span style={{ color: "green" }}>Stock Sufficient</span>
+                        <span style={{ color: "green" }}>Stock Suffisant</span>
                       )}
                     </td>
                   </tr>
@@ -163,7 +214,7 @@ const ReportGenerationAndStatistics = () => {
         )}
 
         {reportType === "sales" && reportData.length > 0 && (
-          <div>
+          <div id="sales-chart">
             <h3>Rapport de Ventes</h3>
             <Line
               data={{
@@ -174,18 +225,19 @@ const ReportGenerationAndStatistics = () => {
                   {
                     label: "Ventes",
                     data: reportData.map((data) => data.quantity * data.price),
-                    borderColor: "rgba(75,192,192,1)",
+                    borderColor: "rgba(0, 0, 128, 1)",
                     fill: false,
                   },
                 ],
               }}
+              style={{ width: '100%', height: '500px' }}
             />
           </div>
         )}
 
         {reportType === "statistics" &&
           statisticsData.topSelling.length > 0 && (
-            <div className="chart-container">
+            <div id="statistics-chart" style={{ display: 'flex', justifyContent: 'space-around' }}>
               <div className="chart-item">
                 <h4>Produits les Plus Vendus</h4>
                 <Pie data={getChartData(statisticsData.topSelling)} />
@@ -196,7 +248,11 @@ const ReportGenerationAndStatistics = () => {
               </div>
             </div>
           )}
-      </div>{" "}
+
+        <button onClick={generatePDF} style={{ marginTop: '20px' }}>
+          Télécharger le Rapport en PDF
+        </button>
+      </div>
     </div>
   );
 };
