@@ -1,10 +1,14 @@
 FROM  node:20.12
 
+WORKDIR /app
+
 COPY package.json /app/
 
 
-WORKDIR /app
 
 RUN npm install
+
+COPY . ./
+EXPOSE 5000
 
 CMD ["dev" ,"app.jsx"]
