@@ -39,6 +39,7 @@ const ProductManagement = () => {
         const response = await axios.post('http://localhost:5000/add', form);
         setProducts([...products, response.data]);
         resetForm();
+        alert('Produit ajouté avec succès');
       } catch (err) {
         console.error('Failed to add product:', err); // Improved error message
       }
@@ -53,6 +54,7 @@ const ProductManagement = () => {
         resetForm();
         setEditMode(false);
         setCurrentProductId(null);
+        alert('Produit mis à jour avec succès');
       } catch (err) {
         console.error('Failed to update product:', err); // Improved error message
       }
@@ -63,6 +65,7 @@ const ProductManagement = () => {
     try {
       await axios.delete(`http://localhost:5000/delete/${id}`);
       setProducts(products.filter(product => product._id !== id));
+      alert('Produit supprimé avec succès');
     } catch (err) {
       console.error('Failed to delete product:', err); // Improved error message
     }

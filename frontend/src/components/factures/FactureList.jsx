@@ -35,85 +35,84 @@ const FactureList = () => {
     doc.text(`Facture N° ${facture.items[0].Number}`, 105, 22, null, null, "center");
 
     // Information sur l'entreprise
-doc.setDrawColor(0);
-doc.rect(10, 35, 190, 50);
-doc.addImage(logo, "PNG", 165, 40, 30, 30); // Ajout du logo
-doc.setTextColor(33, 0, 0);
-doc.setFontSize(10);
+    doc.setDrawColor(0);
+    doc.rect(10, 35, 190, 50);
+    doc.addImage(logo, "PNG", 165, 40, 30, 30); // Ajout du logo
+    doc.setTextColor(33, 0, 0);
+    doc.setFontSize(10);
 
-doc.setFont("helvetica", "bold");
-doc.text("Jaouadi Anis (LAB-IT)", 15, 45); // Texte en gras
+    doc.setFont("helvetica", "bold");
+    doc.text("Jaouadi Anis (LAB-IT)", 15, 45); // Texte en gras
 
-doc.setFont("helvetica", "bold");
-doc.text("Adresse:", 15, 55); // Texte en gras
-doc.setFont("helvetica", "normal");
-doc.text("Cité Ezzahra rue des catacombes Souk lahad Sousse", 30, 55); // Adresse en police normale
+    doc.setFont("helvetica", "bold");
+    doc.text("Adresse:", 15, 55); // Texte en gras
+    doc.setFont("helvetica", "normal");
+    doc.text("Cité Ezzahra rue des catacombes Souk lahad Sousse", 30, 55); // Adresse en police normale
 
-doc.setFont("helvetica", "bold");
-doc.text("Matricule Fiscale:", 15, 65); // Texte en gras
-doc.setFont("helvetica", "normal");
-doc.text("1668688K/P/C/000", 50, 65); // Matricule Fiscale en police normale
+    doc.setFont("helvetica", "bold");
+    doc.text("Matricule Fiscale:", 15, 65); // Texte en gras
+    doc.setFont("helvetica", "normal");
+    doc.text("1668688K/P/C/000", 50, 65); // Matricule Fiscale en police normale
 
-doc.setFont("helvetica", "bold");
-doc.text("Tél:", 15, 75); // Texte en gras
-doc.setFont("helvetica", "normal");
-doc.text("50234911", 25, 75); // Tél en police normale
+    doc.setFont("helvetica", "bold");
+    doc.text("Tél:", 15, 75); // Texte en gras
+    doc.setFont("helvetica", "normal");
+    doc.text("50234911", 25, 75); // Tél en police normale
 
-doc.setFont("helvetica", "bold");
-doc.text("Email:", 15, 85); // Texte en gras
-doc.setFont("helvetica", "normal");
-doc.text("contact@lab-it.tn", 30, 85); // Email en police normale
+    doc.setFont("helvetica", "bold");
+    doc.text("Email:", 15, 85); // Texte en gras
+    doc.setFont("helvetica", "normal");
+    doc.text("contact@lab-it.tn", 30, 85); // Email en police normale
 
+    // Cadre 1 - Informations du client
+    doc.setDrawColor(0);
+    doc.rect(10, 90, 90, 40); // Cadre autour des informations du client
 
-   // Cadre 1 - Informations du client
-doc.setDrawColor(0);
-doc.rect(10, 90, 90, 40); // Cadre autour des informations du client
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "bold");
+    doc.text(`Nom du client:`, 15, 100); // Texte en gras
 
-doc.setFontSize(10);
-doc.setFont("helvetica", "bold");
-doc.text(`Nom du client:`, 15, 100); // Texte en gras
+    doc.setFont("helvetica", "normal");
+    doc.text(`${facture.clientName}`, 55, 100); // Le nom du client en police normale
 
-doc.setFont("helvetica", "normal");
-doc.text(`${facture.clientName}`, 55, 100); // Le nom du client en police normale
+    doc.setFont("helvetica", "bold");
+    doc.text(`Email du client:`, 15, 110); // Texte en gras
+    doc.setFont("helvetica", "normal");
+    doc.text(`${facture.clientEmail}`, 55, 110); // L'email du client en police normale
 
-doc.setFont("helvetica", "bold");
-doc.text(`Email du client:`, 15, 110); // Texte en gras
-doc.setFont("helvetica", "normal");
-doc.text(`${facture.clientEmail}`, 55, 110); // L'email du client en police normale
+    doc.setFont("helvetica", "bold");
+    doc.text(`Matricule Fiscale:`, 15, 120); // Texte en gras
+    doc.setFont("helvetica", "normal");
+    doc.text(`${facture.MatriculeFiscale}`, 55, 120); // Le matricule fiscale en police normale
 
-doc.setFont("helvetica", "bold");
-doc.text(`Matricule Fiscale:`, 15, 120); // Texte en gras
-doc.setFont("helvetica", "normal");
-doc.text(`${facture.MatriculeFiscale}`, 55, 120); // Le matricule fiscale en police normale
+    // Cadre 2 - Informations de la facture
+    doc.rect(110, 90, 90, 40); // Cadre autour des informations de la facture
+    doc.setFontSize(10);
 
-  // Cadre 2 - Informations de la facture
-doc.rect(110, 90, 90, 40); // Cadre autour des informations de la facture
-doc.setFontSize(10);
+    doc.setFont("helvetica", "bold");
+    doc.text(`Date:`, 115, 100); // Texte en gras
+    doc.setFont("helvetica", "normal");
+    doc.text(`${facture.date}`, 125, 100); // Date en police normale
 
-doc.setFont("helvetica", "bold");
-doc.text(`Date:`, 115, 100); // Texte en gras
-doc.setFont("helvetica", "normal");
-doc.text(`${facture.date}`, 125, 100); // Date en police normale
+    doc.setFont("helvetica", "bold");
+    doc.text(`Modalité de paiement:`, 115, 110); // Texte en gras
+    doc.setFont("helvetica", "normal");
+    doc.text(`${facture.paymentMethod || "Non spécifiée"}`, 153, 110); // Modalité de paiement en police normale
 
-doc.setFont("helvetica", "bold");
-doc.text(`Modalité de paiement:`, 115, 110); // Texte en gras
-doc.setFont("helvetica", "normal");
-doc.text(`${facture.paymentMethod || "Non spécifiée"}`, 153, 110); // Modalité de paiement en police normale
+    doc.setFont("helvetica", "bold");
+    doc.text(`Période:`, 115, 120); // Texte en gras
+    doc.setFont("helvetica", "normal");
+    doc.text(`${facture.period || "Non spécifiée"}`, 130, 120); // Période en police normale
 
-doc.setFont("helvetica", "bold");
-doc.text(`Période:`, 115, 120); // Texte en gras
-doc.setFont("helvetica", "normal");
-doc.text(`${facture.period || "Non spécifiée"}`, 130, 120); // Période en police normale
-
-doc.setFont("helvetica", "bold");
-doc.text(`Intervenant:`, 115, 130); // Texte en gras
-doc.setFont("helvetica", "normal");
-doc.text(`${facture.intervenant || "Non spécifié"}`, 140, 130); // Intervenant en police normale
-
+    doc.setFont("helvetica", "bold");
+    doc.text(`Intervenant:`, 115, 130); // Texte en gras
+    doc.setFont("helvetica", "normal");
+    doc.text(`${facture.intervenant || "Non spécifié"}`, 140, 130); // Intervenant en police normale
 
     // Tableau des produits
-    const tableColumn = ["Produit", "Quantité", "Prix Unitaire", "Total"];
+    const tableColumn = [ "Produit", "Quantité", "Prix Unitaire", "Total"];
     const tableRows = facture.items.map((item) => [
+    
       item.productName,
       item.quantity,
       item.unitPrice.toFixed(2),
@@ -129,16 +128,19 @@ doc.text(`${facture.intervenant || "Non spécifié"}`, 140, 130); // Intervenant
     });
 
     // Calcul et ajout du montant total
-    const totalAmount = facture.items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
+    const totalAmount = facture.items.reduce(
+      (sum, item) => sum + item.quantity * item.unitPrice,
+      0
+    );
     doc.setFontSize(12);
     doc.text(`Montant Total: ${totalAmount.toFixed(2)} DT`, 15, doc.autoTable.previous.finalY + 10);
 
     // Informations de pied de page
     const footerData = [
       {
-        key: "Siège Sociale",
+        key: "Siège Social",
         value:
-          "Adresse: Cité Ezzahra rue des catacombes Souk lahad Sousse\nCode Postale: 4002\nTunisie\nMatricule Fiscale: 1668688K/P/C/000",
+          "Adresse: Cité Ezzahra rue des catacombes Souk lahad Sousse\nCode Postal: 4002\nTunisie\nMatricule Fiscale: 1668688K/P/C/000",
       },
       {
         key: "Coordonnées",
@@ -167,6 +169,7 @@ doc.text(`${facture.intervenant || "Non spécifié"}`, 140, 130); // Intervenant
       <table>
         <thead>
           <tr>
+            <th>Numéro de Facture</th>
             <th>Nom du client</th>
             <th>Email du client</th>
             <th>Matricule Fiscale</th>
@@ -181,6 +184,7 @@ doc.text(`${facture.intervenant || "Non spécifié"}`, 140, 130); // Intervenant
         <tbody>
           {factures.map((facture) => (
             <tr key={facture._id}>
+              <td>{facture.items[0].Number}</td>
               <td>{facture.clientName}</td>
               <td>{facture.clientEmail}</td>
               <td>{facture.MatriculeFiscale}</td>

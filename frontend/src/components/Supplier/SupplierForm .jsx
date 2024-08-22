@@ -34,6 +34,7 @@ const SupplierManagement = () => {
           form
         );
         setSuppliers([...suppliers, response.data]);
+        alert("Fournisseur ajouté avec succès");
         resetForm();
       } catch (err) {
         console.error(err);
@@ -53,6 +54,7 @@ const SupplierManagement = () => {
             supplier._id === currentSupplierId ? response.data : supplier
           )
         );
+        alert("Fournisseur ajouté avec succès");
         resetForm();
         setEditMode(false);
         setCurrentSupplierId(null);
@@ -65,7 +67,9 @@ const SupplierManagement = () => {
   const handleDeleteSupplier = async (id) => {
     try {
       await axios.delete(`http://localhost:5000/suppliers/delete/${id}`);
+
       setSuppliers(suppliers.filter((supplier) => supplier._id !== id));
+      alert("Fournisseur supprimé avec succès");
     } catch (err) {
       console.error(err);
     }
@@ -83,6 +87,7 @@ const SupplierManagement = () => {
   };
 
   const handleChange = (e) => {
+  
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };

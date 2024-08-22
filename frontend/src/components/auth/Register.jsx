@@ -35,11 +35,11 @@ const Register = () => {
        <img  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_ZVHabplwcda2IOk5flvd7MZwpzzjdJXo6Yp08kW70AhL8VhgVZb72xg2vXM9FADY7Q&usqp=CAU" alt="Login Illustration" className="img-fluid rounded" />
      </div>
      <div className="w-50 p-3" style={{ background: 'rgba(255, 255, 255, 0.8)', borderRadius: '10px' }}>
-       <h2 className=" text-center">Register</h2>
+       <h2 className=" text-center">Inscription</h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="exampleInputName" className="form-label">
-                <strong>Name</strong>
+                <strong>Nom</strong>
               </label>
               <input 
                 
@@ -52,7 +52,7 @@ const Register = () => {
             </div>
             <div className="mb-3">
               <label htmlFor="exampleInputEmail1" className="form-label">
-                <strong>Email Id</strong>
+                <strong>Email </strong>
               </label>
               <input 
                 type="email" 
@@ -65,7 +65,7 @@ const Register = () => {
             </div>
             <div className="mb-3">
               <label htmlFor="exampleInputPassword1" className="form-label">
-                <strong>Password</strong>
+                <strong>Mot de passe</strong>
               </label>
               <input 
                 type="password" 
@@ -76,12 +76,12 @@ const Register = () => {
                 required
               />
             </div>
-            <button type="submit" className="btn btn-primary w-100">Register</button>
+            <button type="submit" className="btn btn-primary w-100">S'inscrire</button>
           </form>
 
           <p className='mt-3 text-center'>
-            Already have an account?
-            <Link to='/login' className="btn btn-link">Login</Link>
+           Vous avez déjà un compte
+            <Link to='/login' className="btn btn-link">Se connecter</Link>
           </p>
         </div>
       </div>

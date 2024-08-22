@@ -194,7 +194,7 @@ app.get('/products', async (req, res) => {
 //**************************************************suivi de ventes  */
 
 
-app.post('/ventes', async (req, res) => {
+app.post('/ventes/add', async (req, res) => {
   const { productName, quantity, price } = req.body;
 
   try {
@@ -232,8 +232,45 @@ app.get('/ventes', async (req, res) => {
   try {
     const ventes = await Vente.find();
     res.json(ventes);
+
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch sales', error });
+  }
+});
+app.delete('/ventes/delete/:id', async (req, res) => {
+  try {
+    const venteId = req.params.id;
+    const deletedVente = await Vente.findByIdAndDelete(venteId);
+    if (!deletedVente) {
+      return res.status(404).json({ message: 'Vente non trouvée' });
+    }
+    res.status(200).json({ message: 'Vente supprimée avec succès', vente: deletedVente });
+  } catch (err) {
+    res.status(500).json({ message: 'Erreur lors de la suppression de la vente', error: err.message });
+  }
+});
+app.put('/ventes/edit/:id', async (req, res) => {
+  const { productName, quantity, price, date } = req.body;
+
+  try {
+    // Find the vente by ID
+    const vente = await Vente.findById(req.params.id);
+    if (!vente) {
+      return res.status(404).json({ message: 'Vente non trouvée' });
+    }
+
+    // Update vente fields if provided
+    vente.productName = productName || vente.productName;
+    vente.quantity = quantity || vente.quantity;
+    vente.price = price || vente.price;
+    vente.date = date || vente.date;
+
+    // Save the updated vente
+    await vente.save();
+
+    res.status(200).json({ message: 'Vente mise à jour avec succès', vente });
+  } catch (err) {
+    res.status(500).json({ message: 'Erreur lors de la mise à jour de la vente', error: err.message });
   }
 });
 

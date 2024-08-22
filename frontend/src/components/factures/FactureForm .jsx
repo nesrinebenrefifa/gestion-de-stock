@@ -132,20 +132,20 @@ const FactureForm = ({ onAddFacture }) => {
         />
       </div>
       <div className="form-group">
+        <label>Matricule Fiscale</label>
+        <input 
+          type="text"
+          value={MatriculeFiscale}
+          onChange={(e) => setMatriculeFiscale(e.target.value)}
+          required
+        />
+      </div>
+      <div className="form-group">
         <label>Email du client</label>
         <input
           type="email"
           value={clientEmail}
           onChange={(e) => setClientEmail(e.target.value)}
-          required
-        />
-      </div>
-      <div className="form-group">
-        <label>Matricule Fiscale</label>
-        <input
-          type="text"
-          value={MatriculeFiscale}
-          onChange={(e) => setMatriculeFiscale(e.target.value)}
           required
         />
       </div>
@@ -166,7 +166,7 @@ const FactureForm = ({ onAddFacture }) => {
           required
         >
           <option value="Espèce">Espèce</option>
-          <option value="Carte bancaire">Carte bancaire</option>
+          <option value="Shèque">Shèque</option>
           <option value="Virement bancaire">Virement bancaire</option>
         </select>
       </div>
