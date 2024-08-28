@@ -8,8 +8,6 @@ const Vente = require('./models/Vente');
 const Facture = require('./models/Factures');
 const Supplier = require('./models/supplier')
 
-
-
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -57,6 +55,7 @@ app.post('/login', (req, res)=>{
             if(user.password === password) {
                 res.json("Success");
             }
+          
             else{
                 res.json("Wrong password");
             }
@@ -67,6 +66,23 @@ app.post('/login', (req, res)=>{
         }
     })
 })
+app.get('/currentUser', async (req, res) => {
+  try {
+      // Assuming you store the user's email in the session or token after login
+      const userEmail = req.user.email; // Example: req.user.email if using JWT or session
+
+      const user = await FormDataModel.findOne({ email: userEmail });
+
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+
+      res.json({ name: user.name, email: user.email });
+  } catch (error) {
+      res.status(500).json({ message: 'Server error' });
+  }
+});
+  
 
 // Add a new supplier
 app.post('/suppliers/add', async (req, res) => {
@@ -253,6 +269,7 @@ app.put('/ventes/edit/:id', async (req, res) => {
   const { productName, quantity, price, date } = req.body;
 
   try {
+  
     // Find the vente by ID
     const vente = await Vente.findById(req.params.id);
     if (!vente) {

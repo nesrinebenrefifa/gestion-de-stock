@@ -30,7 +30,7 @@ const Register = () => {
   return (
     <div className="d-flex justify-content-center align-items-center vh-100" 
     >
-   <div className="d-flex flex-row" style={{ width: "100%", maxWidth: "1000px" ,marginLeft:"200px"}}>
+   <div className="flex-row" style={{ width: "100%", maxWidth: "2000px" ,marginLeft:"500px"}}>
      <div className="w-50 p-3 d-flex align-items-center justify-content-center">
        <img  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_ZVHabplwcda2IOk5flvd7MZwpzzjdJXo6Yp08kW70AhL8VhgVZb72xg2vXM9FADY7Q&usqp=CAU" alt="Login Illustration" className="img-fluid rounded" />
      </div>

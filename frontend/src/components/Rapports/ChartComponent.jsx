@@ -145,7 +145,7 @@ const ReportGenerationAndStatistics = () => {
   return (
     <div className="d-flex align-items-center vh-100">
       <div className="report-container">
-        <h2>Générer des Rapports</h2>
+        <h2 style={{marginTop:"100px"}}>Générer des Rapports</h2>
         <div className="dropdown-container">
           <div className="select-container">
             <label>

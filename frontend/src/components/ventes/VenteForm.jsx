@@ -38,7 +38,7 @@ const VenteForm = ({ onAddVente }) => {
         (product) => product.name === productName
       );
       if (selectedProduct.quantity < quantity) {
-        setAlert("Not enough quantity in stock");
+        setAlert("pas assez de quantité en stock");
         return;
       }
 
