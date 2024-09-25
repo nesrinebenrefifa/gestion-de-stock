@@ -307,6 +307,7 @@ app.post('/factures', async (req, res) => {
       intervenant,
       items,
       totalAmount
+      
     });
     await newFacture.save();
     res.status(201).json(newFacture);

@@ -4,7 +4,7 @@ const FacturesSchema = new mongoose.Schema({
  
     clientName: { type: String, required: true },
     clientEmail: { type: String, required: true },
-    date: { type: Date, default: Date.now },
+    date: { type: Date,  required: true,default: Date.now },
     items: [
       {
         Number: { type: String, required: true, unique: true },

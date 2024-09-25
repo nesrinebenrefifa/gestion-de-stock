@@ -58,7 +58,7 @@ const FactureForm = ({ onAddFacture }) => {
   const handleAddItem = () => {
     setItems([
       ...items,
-      { id: Date.now(), productId: "", quantity: 1, unitPrice: 0, Number: "" },
+      { id: date.now(), productId: "", quantity: 1, unitPrice: 0, Number: "" },
     ]);
   };
 
@@ -103,9 +103,9 @@ const FactureForm = ({ onAddFacture }) => {
       setClientEmail("");
       setMatriculeFiscale("");
       setDate("");
-      setPaymentMethod("Espèce");
-      setPeriod("oct-23");
-      setIntervenant("Mr Jaouadi Anis");
+      setPaymentMethod("");
+      setPeriod("");
+      setIntervenant("");
       setItems([
         {
           id: Date.now(),
@@ -166,7 +166,7 @@ const FactureForm = ({ onAddFacture }) => {
           required
         >
           <option value="Espèce">Espèce</option>
-          <option value="Shèque">Shèque</option>
+          <option value="Chèque">Shèque</option>
           <option value="Virement bancaire">Virement bancaire</option>
         </select>
       </div>

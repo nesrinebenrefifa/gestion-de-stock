@@ -69,7 +69,7 @@ const Login = () => {
             <button type="submit" className="btn btn-primary w-100">Se connecter </button>
           </form>
           <p className="mt-3 text-center">
-            <span>Vous n'avez pas encore de copmte </span>
+            <span>Vous n'avez pas encore de compte </span>
             <Link to="/register" className="btn btn-link">S'inscrire</Link>
           </p>
         </div>

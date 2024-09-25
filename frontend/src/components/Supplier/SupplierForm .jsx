@@ -54,7 +54,7 @@ const SupplierManagement = () => {
             supplier._id === currentSupplierId ? response.data : supplier
           )
         );
-        alert("Fournisseur ajouté avec succès");
+        alert("Fournisseur mis à jour avec succès");
         resetForm();
         setEditMode(false);
         setCurrentSupplierId(null);
