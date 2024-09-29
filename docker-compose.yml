@@ -7,7 +7,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5173:5173" 
-    command: npm start
     volumes:
       - "./frontend:/app"  
       - "/app/node_modules"
@@ -21,7 +20,8 @@ services:
     ports:
       - "5000:5000"
     environment:
-      MONGO_URI: mongodb://nesrine:nesrine@db:27017
+      # Ensure that the URI matches your MongoDB setup
+      URI: mongodb://benrefifanesrine:gestiondestock@db:27017/gestiondestock
     volumes:
       - "./backend:/app"  
       - "/app/node_modules"
@@ -32,8 +32,8 @@ services:
     image: mongo
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: nesrine
-      MONGO_INITDB_ROOT_PASSWORD: nesrine
+      MONGO_INITDB_ROOT_USERNAME: benrefifanesrine
+      MONGO_INITDB_ROOT_PASSWORD: gestiondestock
     volumes:
       - db-data:/data/db
     networks:

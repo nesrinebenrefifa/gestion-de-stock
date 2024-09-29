@@ -371,6 +371,7 @@ app.get('/low-stock-alerts', async (req, res) => {
 });
 app.get('/statistics', async (req, res) => {
   try {
+
     // Agrégation pour les produits les plus vendus
     
     const topSelling = await Vente.aggregate([

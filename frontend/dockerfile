@@ -1,21 +1,35 @@
-# Stage 1: Build the React application with Vite
-FROM node:20.12 AS build
 
-# Set working directory
+
+# Base image for building the app
+FROM node:20-alpine AS build
+
+# Set the working directory
 WORKDIR /app
 
-# Copy package files and install dependencies
-COPY package*.json ./
-RUN npm install
+# Copy only package.json and package-lock.json for dependency installation
+COPY package.json package-lock.json ./
 
-# Copy the rest of the application
+# Install production dependencies only
+RUN npm install --omit=dev
+
+# Copy the rest of the application code
 COPY . .
 
 # Build the application
 RUN npm run build
 
-# Expose the Vite development port (usually 5173)
+# Production image
+FROM node:20-alpine
+
+# Set the working directory
+WORKDIR /app
+
+# Copy built files from the build stage
+COPY --from=build /app/dist ./dist
+
+# Expose the port that Vite.js uses
 EXPOSE 5173
 
-# Start the Vite development server
-CMD ["npm", "run", "dev"]
+# Start the Vite.js server (if serving built files, change command accordingly)
+CMD ["npm", "run", "serve"]  # Make sure you have a script for serving the built files
+
