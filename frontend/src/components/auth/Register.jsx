@@ -17,10 +17,10 @@ const Register = () => {
       .then(result => {
         console.log(result);
         if (result.data === "Already registered") {
-          alert("E-mail already registered! Please Login to proceed.");
+          alert("E-mail déjà enregistré ! Veuillez vous connecter pour continuer.");
           navigate('/login');
         } else {
-          alert("Registered successfully! Please Login to proceed.")
+          alert("Inscrit avec succès ! Veuillez vous connecter pour continuer.")
           navigate('/login');
         }
       })
