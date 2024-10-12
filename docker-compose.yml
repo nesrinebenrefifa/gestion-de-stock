@@ -21,10 +21,12 @@ services:
     ports:
       - "5000:5000"
     environment:
-      MONGO_URI: mongodb://nesrine:nesrine@db:27017
+     
+       URI: mongodb://nesrine:nesrine@db:27017
+
     volumes:
       - "./backend:/app"  
-      - "/app/node_modules"
+      
     networks:
       - app-network
     
